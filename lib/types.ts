@@ -1,7 +1,3 @@
-// Hand-authored from the backend's actual Mongoose models, services, and
-// controllers (no OpenAPI spec exists — see spec §5.13). Keep in lockstep
-// with backend source when routes change; each shape below is annotated
-// with the backend file it was derived from.
 
 export type TenantType = "COLLEGE" | "DEPARTMENT";
 export type TenantStatus = "ACTIVE" | "FROZEN" | "ARCHIVED";
@@ -197,4 +193,5 @@ export interface ReceiptVerification {
   paidFor?: string;
   level?: StudentLevel;
   paymentType?: PaymentType;
+  baseAmount?: number; 
 }
