@@ -22,6 +22,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
       ...(body !== undefined && !(body instanceof FormData)
         ? { "Content-Type": "application/json" }
         : {}),
+      "ngrok-skip-browser-warning": "true", // <-- Bypasses ngrok warning page
       ...(headers as Record<string, string>),
     };
 

@@ -6,12 +6,9 @@ import type { ApiError, ApiSuccess } from "@/lib/types";
 interface ServerFetchOptions {
   /** Query params to append. */
   searchParams?: Record<string, string | number | boolean | undefined>;
-  /**
-   * 'no-store' for anything role-sensitive/financial (default — spec §7.1);
-   * pass { revalidate: N } only for genuinely public, low-sensitivity data.
-   */
   cache?: RequestCache;
   next?: NextFetchRequestConfig;
+  headers?: Record<string, string>;
 }
 
 function buildUrl(path: string, searchParams?: ServerFetchOptions["searchParams"]) {
@@ -32,6 +29,10 @@ export async function publicServerFetch<T>(
   const res = await fetch(buildUrl(path, options.searchParams), {
     cache: options.cache ?? "no-store",
     next: options.next,
+    headers: {
+      "ngrok-skip-browser-warning": "true", // <-- Bypasses ngrok on SSR/Server Components
+      ...(options.headers || {}),
+    },
   });
 
   let json: ApiSuccess<T> | ApiError | undefined;
